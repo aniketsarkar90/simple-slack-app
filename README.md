@@ -1,1 +1,1 @@
-# simple-slack-bot
+# This is a Simple Slack App
