@@ -2,19 +2,25 @@
 
 let request = require('request');
 
-//const SLACK_OAUTH_TOKEN = 'XXXX'; //local testing
-const SLACK_OAUTH_TOKEN = process.env.SLACK_OAUTH_ACCESS_TOKEN
+const SLACK_OAUTH_TOKEN = 'xoxp-907742653238-905536266160-1216619484534-eef18c554f8c2f7d5c46f2010a6cea1a'; //local testing
+//const SLACK_OAUTH_TOKEN = process.env.SLACK_OAUTH_ACCESS_TOKEN;
 
-module.exports.qoutes = (event) => {
-  getQoute();
+const SUCCESS_RESPONSE = {
+  statusCode: 200,
+  body: null
 };
 
-function getQoute() {
+module.exports.qoutes = (event, context, callback) => {
+  getQoute(callback);
+};
+
+function getQoute(callback) {
   request('https://ron-swanson-quotes.herokuapp.com/v2/quotes', function (err, resp, body) {
-    console.log('error:', err)
-    console.log('statusCode:', resp && resp.statusCode)
-    console.log('body', body)
-    postQoute(body.substring(2, body.length - 2))
+    console.log('error:', err);
+    console.log('statusCode:', resp && resp.statusCode);
+    console.log('body', body);
+    callback(null, SUCCESS_RESPONSE);
+    postQoute(body.substring(2, body.length - 2));
   })
 }
 
@@ -33,8 +39,8 @@ function postQoute(quote) {
   }
 
   request(options, function(err, resp, body) {
-    console.log('error:', err)
-    console.log('statusCode:', resp && resp.statusCode)
-    console.log('body', body)
-  })
+    console.log('error:', err);
+    console.log('statusCode:', resp && resp.statusCode);
+    console.log('body', body);
+  });
 }
