@@ -1,15 +1,13 @@
 'use strict';
 
-module.exports.qoutes = async event => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your function executed successfully. Test',
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
+module.exports.qoutes = (event) => {
+  getQoutes();
 };
+
+function getQoutes() {
+  request('https://ron-swanson-quotes.herokuapp.com/v2/quotes', function (err, resp, body) {
+    console.log('error:', err)
+    console.log('statusCode:', resp && resp.statusCode)
+    console.log('body', body)
+  })
+}

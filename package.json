@@ -1,0 +1,26 @@
+{
+  "name": "simple-slack-app",
+  "version": "1.0.0",
+  "description": "A simple slack app ",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aniketsarkar90/simple-slack-app.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "serverless",
+    "slack",
+    "bot"
+  ],
+  "author": "Aniket",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aniketsarkar90/simple-slack-app/issues"
+  },
+  "homepage": "https://github.com/aniketsarkar90/simple-slack-app#readme"
+}
