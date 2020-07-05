@@ -59,11 +59,7 @@ provider:
 
 functions:
   authorize:
-    handler: handler.authorize
-    events:
-      - http: #they will be receiving an http event with the method get 
-          method: get
-          path: slack/authorize
+    handler: handler.qoutes
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
