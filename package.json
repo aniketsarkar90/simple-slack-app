@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/aniketsarkar90/simple-slack-app/issues"
   },
-  "homepage": "https://github.com/aniketsarkar90/simple-slack-app#readme"
+  "homepage": "https://github.com/aniketsarkar90/simple-slack-app#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
 }

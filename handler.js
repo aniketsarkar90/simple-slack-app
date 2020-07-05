@@ -1,5 +1,7 @@
 'use strict';
 
+let request = require('request');
+
 module.exports.qoutes = (event) => {
   getQoutes();
 };
