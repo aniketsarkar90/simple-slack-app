@@ -1,6 +1,7 @@
 'use strict';
 
 let request = require('request');
+let channel = 'test'; //fallback channel 
 
 //const SLACK_OAUTH_TOKEN = 'XXXX'; //local testing
 const SLACK_OAUTH_TOKEN = process.env.SLACK_OAUTH_ACCESS_TOKEN;
@@ -11,6 +12,7 @@ const SUCCESS_RESPONSE = {
 };
 
 module.exports.qoutes = (event, context, callback) => {
+  channel = event.body.split("&")[3].split("=")[1]
   getQoute(callback);
 };
 
@@ -33,7 +35,7 @@ function postQoute(quote) {
     method: 'POST',
     form: {
       token: SLACK_OAUTH_TOKEN,
-      channel: 'test', //created a test channel
+      channel: channel,
       text: quote,
     }
   }
