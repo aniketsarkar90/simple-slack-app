@@ -36,7 +36,7 @@ function postQoute(quote) {
     form: {
       token: SLACK_OAUTH_TOKEN,
       channel: channel,
-      text: quote,
+      text: quote
     }
   }
 
