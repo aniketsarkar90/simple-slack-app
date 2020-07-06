@@ -2,8 +2,8 @@
 
 let request = require('request');
 
-const SLACK_OAUTH_TOKEN = 'xoxp-907742653238-905536266160-1216619484534-eef18c554f8c2f7d5c46f2010a6cea1a'; //local testing
-//const SLACK_OAUTH_TOKEN = process.env.SLACK_OAUTH_ACCESS_TOKEN;
+//const SLACK_OAUTH_TOKEN = 'XXXX'; //local testing
+const SLACK_OAUTH_TOKEN = process.env.SLACK_OAUTH_ACCESS_TOKEN;
 
 const SUCCESS_RESPONSE = {
   statusCode: 200,
