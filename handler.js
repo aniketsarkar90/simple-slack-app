@@ -3,12 +3,37 @@
 let request = require('request');
 let channel = 'test'; //fallback channel 
 
-//const SLACK_OAUTH_TOKEN = 'XXXX'; //local testing
 const SLACK_OAUTH_TOKEN = process.env.SLACK_OAUTH_ACCESS_TOKEN;
+const SLACK_VERIFICATION_TOKEN = process.env.SLACK_OAUTH_ACCESS_TOKEN;
+
 
 const SUCCESS_RESPONSE = {
   statusCode: 200,
   body: null
+};
+
+module.exports.receive = (event, context, callback) => {
+  console.log('inside receive function');
+  
+  let { Botkit } = require('botkit');
+  const { SlackAdapter } = require('botbuilder-adapter-slack');
+
+  const adapter = new SlackAdapter({
+      clientSigningSecret: SLACK_VERIFICATION_TOKEN,
+      botToken: SLACK_OAUTH_TOKEN
+  });
+
+  const controller = new Botkit({
+      adapter,
+      // ...other options
+  });
+
+  controller.on('message', async(bot, message) => {
+      await bot.reply(message, 'I heard a message!');
+  });
+
+  console.log('...End...');
+
 };
 
 module.exports.qoutes = (event, context, callback) => {
