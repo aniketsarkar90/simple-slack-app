@@ -31,6 +31,11 @@ module.exports.receive = (event, context, callback) => {
   controller.on('message', async(bot, message) => {
       await bot.reply(message, 'I heard a message!');
   });
+  controller.hears(["Hello","Hi"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+
+    bot.reply(message,'Hellow are you today?');
+  
+  });
 
   console.log('...End...');
 
