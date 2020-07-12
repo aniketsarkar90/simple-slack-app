@@ -11,29 +11,37 @@ let request = require('request');
 let channel = 'test'; //fallback channel 
 
 module.exports.start = async (data) => {
+    console.log('data');
+    console.log(data);
     const dataObj = JSON.parse(data.body);
 
+    console.log('dataObj');
+    console.log(dataObj);
     let response = {
         statusCode: 200,
         body: {},
         headers: {'X-Slack-No-Retry': 1} //turning retries off - https://api.slack.com/events-api#graceful_retries
     }
 
-    switch ( dataObj.type ) {
-        case 'url_verification':
-            response.body = urlVerification(dataObj); 
-            break;
-        case 'event_callback':
-            await messageHandler(dataObj.event);
-            response.body = { 
-                ok: true 
-            }; 
-            break;
-        default:
-            response.statusCode = 400,
-            response.body = 'Empty request';
-            break;
-    } 
+      //avoid triggering the lambda multiple times if the header is present - https://api.slack.com/events-api
+      if (!('X-Slack-Retry-Num' in data.headers)) {
+        
+        switch ( dataObj.type ) {
+            case 'url_verification':
+                response.body = urlVerification(dataObj); 
+                break;
+            case 'event_callback':
+                await messageHandler(dataObj.event);
+                response.body = { 
+                    ok: true 
+                }; 
+                break;
+            default:
+                response.statusCode = 400,
+                response.body = 'Empty request';
+                break;
+        } 
+    }
     
     return response;
 }
@@ -50,14 +58,31 @@ function urlVerification(dataObj) {
 //URL Verification challenge - https://api.slack.com/events/url_verification
 async function messageHandler(event) {
     //checking if this is coming form a bot
+
+    console.log('Event Type: ');
+    console.log(event);
+
     if(!event.bot_id){
         //read the message
         let message = parseMessage(event.text);
         let reply = '';
+
         //handle specific messages based on the input
         switch (message) {
             case 'hi':
                 reply = 'Hi, How are you?';
+                await postMessageOnSlack( event.channel, reply);
+                break;
+            case 'i am good':
+                    reply = 'Glad to know';
+                    await postMessageOnSlack( event.channel, reply);
+                    break;    
+            case 'who are you?':
+                reply = 'I am Monday.';
+                await postMessageOnSlack( event.channel, reply);
+                break;
+            case 'idiot':
+                reply = 'Tera baap!!!';
                 await postMessageOnSlack( event.channel, reply);
                 break;
             default:
@@ -65,6 +90,7 @@ async function messageHandler(event) {
                 await postMessageOnSlack( event.channel, reply);
                 break;
         }
+        
     }
 }
 
@@ -72,7 +98,7 @@ function parseMessage(message){
     return message.split( ' ', 2 ).pop();
 }
 
-function postMessageOnSlack(){
+function postMessageOnSlack(channel, message){
     let payload = {
         token  : SLACK_OAUTH_TOKEN,
         channel: channel,

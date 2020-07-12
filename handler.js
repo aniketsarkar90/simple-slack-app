@@ -14,7 +14,7 @@ const SUCCESS_RESPONSE = {
 };
 
 module.exports.qoutes = (event, context, callback) => {
-  if (!event.body){
+  if (event.body){
     channel = event.body.split("&")[3].split("=")[1];
   }
   
