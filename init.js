@@ -23,6 +23,12 @@ module.exports.start = async (data) => {
         case 'url_verification':
             response.body = urlVerification(dataObj); 
             break;
+        case 'event_callback':
+            await messageHandler(dataObj.event);
+            response.body = { 
+                ok: true 
+            }; 
+            break;
         default:
             response.statusCode = 400,
             response.body = 'Empty request';
@@ -39,4 +45,39 @@ function urlVerification(dataObj) {
     } else {
         throw 'Verification failed';
     }
+}
+
+//URL Verification challenge - https://api.slack.com/events/url_verification
+async function messageHandler(event) {
+    //checking if this is coming form a bot
+    if(!event.bot_id){
+        //read the message
+        let message = parseMessage(event.text);
+        let reply = '';
+        //handle specific messages based on the input
+        switch (message) {
+            case 'hi':
+                reply = 'Hi, How are you?';
+                await postMessageOnSlack( event.channel, reply);
+                break;
+            default:
+                reply = 'Let me get back to you on this :)';
+                await postMessageOnSlack( event.channel, reply);
+                break;
+        }
+    }
+}
+
+function parseMessage(message){
+    return message.split( ' ', 2 ).pop();
+}
+
+function postMessageOnSlack(){
+    let payload = {
+        token  : SLACK_OAUTH_TOKEN,
+        channel: channel,
+        text   : message
+    };
+
+    return Slack.chat.postMessage(payload);
 }
