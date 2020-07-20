@@ -58,6 +58,12 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  dispatcher:
+    handler: init.start
+    events: #create the api gateway
+      - http:
+          path: "/event-handler"
+          method: post
   qoutes:
     handler: handler.qoutes
     events:
