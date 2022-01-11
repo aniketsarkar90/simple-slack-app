@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/aniketsarkar90/simple-slack-app#readme",
   "dependencies": {
-    "dotenv": "^10.0.0",
+    "dotenv": "^11.0.0",
     "request": "^2.88.2",
     "slack": "^11.0.2"
   }
